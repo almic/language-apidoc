@@ -1,0 +1,72 @@
+'.source.js, .text.html.php':
+  'Start apiDoc Block':
+    'prefix': 'apiDoc'
+    'body': '''
+      /**
+       * @api \\{${1:get}\\} /${2:path} ${3:title}
+       * @apiVersion ${4:0.0.0}
+       * @apiName $5
+       * @apiGroup $6
+       */$0'''
+  'Start apiDefine Block':
+    'prefix': 'apiDefine'
+    'body': '''
+      /**
+       * @apiDefine ${1:Name} ${2:Title}
+       * ${3:Description}
+       * @apiVersion ${2:0.0.0}
+       */$0'''
+'.source.coffee, .source.litcoffee':
+  'Start apiDoc Block':
+    'prefix': 'apiDoc'
+    'body': '''
+      ###
+      @api \\{${1:get}\\} /${2:path} ${3:title}
+      @apiVersion ${4:0.0.0}
+      @apiName $5
+      @apiGroup $6
+      ###$0'''
+  'Start apiDefine Block':
+    'prefix': 'apiDefine'
+    'body': '''
+      ###
+      @apiDefine ${1:Name} ${2:Title}
+      ${3:Description}
+      @apiVersion ${2:0.0.0}
+      ###$0'''
+'.source.python':
+  'Start apiDoc Block':
+    'prefix': 'apiDoc'
+    'body': '''
+      """
+      @api \\{${1:get}\\} /${2:path} ${3:title}
+      @apiVersion ${4:0.0.0}
+      @apiName $5
+      @apiGroup $6
+      """$0'''
+  'Start apiDefine Block':
+    'prefix': 'apiDefine'
+    'body': '''
+      """
+      @apiDefine ${1:Name} ${2:Title}
+      ${3:Description}
+      @apiVersion ${2:0.0.0}
+      """$0'''
+'.source.ruby, .source.ruby.rails, .text.html.ruby':
+  'Start apiDoc Block':
+    'prefix': 'apiDoc'
+    'body': '''
+      =begin
+      @api \\{${1:get}\\} /${2:path} ${3:title}
+      @apiVersion ${4:0.0.0}
+      @apiName $5
+      @apiGroup $6
+      =end$0'''
+  'Start apiDefine Block':
+    'prefix': 'apiDefine'
+    'body': '''
+      =begin
+      @apiDefine ${1:Name} ${2:Title}
+      ${3:Description}
+      @apiVersion ${2:0.0.0}
+      =end$0'''
