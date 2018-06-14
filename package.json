@@ -1,6 +1,6 @@
 {
   "name": "language-apidoc",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Add support for apiDoc syntax highlighting for any language",
   "keywords": [
     "apidoc",
