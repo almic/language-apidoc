@@ -10,7 +10,7 @@
     "language",
     "grammar"
   ],
-  "repository": "https://github.com/atom/language-apidoc",
+  "repository": "https://github.com/almic/language-apidoc",
   "license": "MIT",
   "engines": {
     "atom": ">=1.0.0 <2.0.0"
