@@ -26,6 +26,6 @@
     "node": "*"
   },
   "dependencies": {
-    "tree-sitter-apidoc": "^0.1.1"
+    "tree-sitter-apidoc": "^0.1.2"
   }
 }
