@@ -5,71 +5,80 @@ patterns: [
   {
     comment: '@api: Required! Without this indicator, apiDoc parser ignores the block.'
     match: '''(?x)
-      ((@)api)[ \\t]+
+      (@api)[ \\t]+  # 1
 
-      ({(?:
-          get
-         |head
-         |post
-         |put
-         |delete
-         |connect
-         |options
-         |trace
-         |patch
-      )})
+      # Method, 2 & 3
+      (?:
+        ({(?:  # 2
+           get
+          |head
+          |post
+          |put
+          |delete
+          |connect
+          |options
+          |trace
+          |patch
+        )})
+        |
+        ({[^\\}]*})  # 3
+      )
 
-      # Enable highlighting prior to typing URL with "optional" group, although the URL is still required
+      # Path, 4
       (?:[ \\t]+(?!\\*/)
         (?:(\\S+?)(?=$|\\ |\\t|\\*/))
       )?
-      # No capture for the description, uses default comment style
+
+      # Title, 5
+      (?:[ \\t]+(?!\\*/)
+        (?:(.+?)(?=$|\\*/))
+      )?
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'constant.other.apidoc'
       3:
-        name: 'constant.language.symbol-type.apidoc'
+        name: 'invalid.illegal.syntax.apidoc'
       4:
-        name: 'variable.other.link.apidoc'
+        name: 'support.type.apidoc'
+      5:
+        name: 'entity.other.attribute-name.id.apidoc'
   }
   {
     comment: '@apiDefine: Defines a documentation block to be embedded.'
     match: '''(?x)
-      ((@)apiDefine)[ \\t]+
+      (@apiDefine)[ \\t]+  # 1
 
-      (?!\\*/)(?:
-        (?:(\\w+)(?=$|\\ |\\t|\\*/))
+      # Name, 2 & 3
+      (?:
+        (?:(\\w+)(?=$|\\ |\\t|\\*/))  # 2
         |
-        (?:(\\S+?)(?=$|\\ |\\t|\\*/)) # This last group allows us to catch invalid names
+        (?:(\\S+?)(?=$|\\ |\\t|\\*/))  # 3
       )
 
-      (?:[ \\t]+(?=\\S)(?!\\*/)
-        (.+?)[ \\t]*(?=$|\\*/) # This is the optional title, highlighted for your pleasure
+      # Title, 4
+      (?:[ \\t]+(?!\\*/)
+        (?:(.+?)(?=$|\\*/))
       )?
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'variable.other.apidoc'
       3:
-        name: 'entity.name.type.instance.apidoc'
-      4:
         name: 'invalid.illegal.syntax.apidoc'
-      5:
-        name: 'variable.other.link.apidoc'
+      4:
+        name: 'entity.other.attribute-name.id.apidoc'
   }
   {
     comment: '@apiError: Error return parameter'
-    begin: '((@)apiError)(?=[ \\t]+\\S)(?![ \\t]+\\*/)'
+    begin: '(@apiError)(?=[ \\t]+\\S)(?![ \\t]+\\*/)'
     beginCaptures:
       1:
-        name: 'storage.type.class.apidoc'
-      2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'keyword.control.apidoc'
     end: '(?=\\*/|$)'
     patterns: [{
       include: '#param'
@@ -78,51 +87,50 @@ patterns: [
   {
     comment: '@apiExample: Examples of a message or request, output as pre-formatted code.'
     match: '''(?x)
-      ((@)api(?:Error|Header|Param|Success)?Example)[ \\t]+
+      (@api(?:Error|Header|Param|Success)?Example)[ \\t]+  # 1
 
       (?!\\*/)(?:(?=\\S)
-        # Optional type
-        (?:{[ \\t]*([a-zA-Z0-9\\./\\\\\\[\\]_-]+)[ \\t]*})?
+        # Type, 2
+        (?:{[ \\t]*([a-zA-Z0-9./\\\\\\[\\]_-]+)[ \\t]*})?
 
-        # Optional title
-        (?:[ \\t]*(?!\\*/)(\\S+?))?
+        # Title, 3
+        (?:[ \\t]+(?!\\*/)
+          (?:(.+?)(?=$|\\*/))
+        )?
 
         (?=$|\\ |\\t|\\*/)
       )
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'entity.name.type.apidoc'
       3:
-        name: 'entity.name.type.instance.apidoc'
-      4:
-        name: 'entity.name.type.instance.apidoc'
+        name: 'entity.other.attribute-name.id.apidoc'
   }
   {
     comment: '@apiGroup: Should always be used. Defines to which group the method document block belongs.'
     match: '''(?x)
-      ((@)apiGroup)
-      [ \\t]+
-      (?!\\*/)(?:(\\S+?)(?=$|\\ |\\t|\\*/))
+      (@apiGroup)[ \\t]+  # 1
+
+      # Name, 2
+      (?!\\*/)(?:
+        (?:(.+?)(?=$|\\*/))
+      )?
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
-      3:
-        name: 'constant.language.symbol-type.apidoc'
+        name: 'variable.other.apidoc'
   }
   {
     comment: '@apiHeader: Describe a parameter passed to your API-Header e.g. for Authorization. Similar operation as @apiParam, only the output is above the parameters.'
-    begin: '((@)apiHeader)(?=[ \\t]+\\S)(?![ \\t]+\\*/)'
+    begin: '(@apiHeader)(?=[ \\t]+\\S)(?![ \\t]+\\*/)'
     beginCaptures:
       1:
-        name: 'storage.type.class.apidoc'
-      2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'keyword.control.apidoc'
     end: '(?=\\*/|$)'
     patterns: [{
       include: '#param'
@@ -131,26 +139,25 @@ patterns: [
   {
     comment: '@apiName: Should always be used. Defines the name of the mthod documentation block.'
     match: '''(?x)
-      ((@)apiName)
-      [ \\t]+
-      (?!\\*/)(?:(\\S+?)(?=$|\\ |\\t|\\*/))
+      (@apiName)[ \\t]+  # 1
+
+      # Name, 2
+      (?!\\*/)(?:
+        (?:(.+?)(?=$|\\*/))
+      )?
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
-      3:
-        name: 'constant.language.symbol-type.apidoc'
+        name: 'variable.other.apidoc'
   }
   {
     comment: '@apiParam: Describe a parameter passed to the API method'
-    begin: '((@)apiParam)(?=[ \\t]+\\S)(?![ \\t]+\\*/)'
+    begin: '(@apiParam)(?=[ \\t]+\\S)(?![ \\t]+\\*/)'
     beginCaptures:
       1:
-        name: 'storage.type.class.apidoc'
-      2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'keyword.control.apidoc'
     end: '(?=\\*/|$)'
     patterns: [{
       include: '#param'
@@ -159,49 +166,52 @@ patterns: [
   {
     comment: '@apiPermission: Outputs the permission name. If defined by @apiDefine, then that is generated.'
     match: '''(?x)
-      ((@)apiPermission)
-      [ \\t]+
-      (?!\\*/)(?:(\\S+?)(?=$|\\ |\\t|\\*/))
+      (@apiPermission)[ \\t]+  # 1
+
+      # Name, 2
+      (?!\\*/)(?:
+        (?:(.+?)(?=$|\\*/))
+      )?
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
-      3:
-        name: 'constant.language.symbol-type.apidoc'
+        name: 'variable.other.apidoc'
   }
   {
     comment: '@apiSampleRequest: Use this parameter in conjunction with the apidoc.json config parameter `sampleUrl`.'
     match: '''(?x)
-      ((@)apiSampleRequest)
+      (@apiSampleRequest)
       [ \\t]+
       (?!\\*/)(?:
         (off) # off disables this if `sampleUrl` is set
         |
         (
-          (?:(\\S+?)(?=$|\\ |\\t|\\*/))
+          (?:/|https?://)[-a-zA-Z0-9_/:.]*
         )
-      )
+        |
+        (?:
+          (\\S+?) # Invalid option capturing
+        )
+      )(?=$|\\ |\\t|\\*/)
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'string.quoted.apidoc'
       3:
-        name: 'constant.language.symbol-type.apidoc'
+        name: 'support.type.apidoc'
       4:
-        name: 'variable.other.link.apidoc'
+        name: 'invalid.illegal.syntax.apidoc'
   }
   {
     comment: '@apiSuccess: Success return parameter.'
-    begin: '((@)apiSuccess)(?=[ \\t]+\\S)(?![ \\t]+\\*/)'
+    begin: '(@apiSuccess)(?=[ \\t]+\\S)(?![ \\t]+\\*/)'
     beginCaptures:
       1:
-        name: 'storage.type.class.apidoc'
-      2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'keyword.control.apidoc'
     end: '(?=\\*/|$)'
     patterns: [{
       include: '#param'
@@ -210,22 +220,23 @@ patterns: [
   {
     comment: '@apiUse: Copies the contents from an @apiDefine block into this block, cannot be used with @apiDefine.'
     match: '''(?x)
-      ((@)apiUse)
-      [ \\t]+
-      (?!\\*/)(?:(\\S+?)(?=$|\\ |\\t|\\*/))
+      (@apiUse)[ \\t]+  # 1
+
+      # Name, 2
+      (?!\\*/)(?:
+        (?:(.+?)(?=$|\\*/))
+      )?
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
-      3:
-        name: 'constant.language.symbol-type.apidoc'
+        name: 'variable.other.apidoc'
   }
   {
     comment: '@apiVersion: Version for this documentation block. You should seriously be using SemVer on this one, but whateva'
     match: '''(?x)
-      ((@)apiVersion)
+      (@apiVersion)
       [ \\t]+
       (?!\\*/)(?:
         (
@@ -250,18 +261,16 @@ patterns: [
     '''
     captures:
       1:
-        name: 'storage.type.class.apidoc'
+        name: 'keyword.control.apidoc'
       2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'string.quoted.apidoc'
       3:
-        name: 'markup.raw.constant.numeric.apidoc'
-      4:
-        name: 'constant.language.symbol-type.apidoc'
+        name: 'variable.other.apidoc'
   }
   {
     # Highlighting for all tags!
     match: '''(?x)
-      ((@)api
+      (@api
         (?:
           Define
           |Deprecated
@@ -285,9 +294,7 @@ patterns: [
     name: 'entity.other.apidoc'
     captures:
       1:
-        name: 'storage.type.class.apidoc'
-      2:
-        name: 'punctuation.definition.block.tag.apidoc'
+        name: 'keyword.control.apidoc'
   }
   {
     # Deprecated highlights
@@ -310,108 +317,68 @@ repository:
     comment: 'Used for a couple things, absolutely huge regex'
     match: '''(?x)\\G[ \\t]+
 
-    # Optional Group
+    # Group, 1 & 2
     (?:
-      (?:(\\([ \\t]*(?:$|\\)))[ \\t]*) # Invalid marker
+      (?:(\\([ \\t]*(?:$|\\)))[ \\t]*)  # 1
       |
-      (?:(\\()[ \\t]*(.+?)[ \\t]*(\\))[ \\t]*)
+      (?:(\\([ \\t]*.+?[ \\t]*\\))[ \\t]*)  # 2
     )?
 
-    # Optional Type
+    # Type, 3 4 5 & 6
     (?:
-      (?:({[ \\t]*(?:$|}))[ \\t]*) # Invalid marker
-      |
       (?:
-        (?:({)[ \\t]*([a-zA-Z0-9\\(\\)#:\\.\\/\\\\\\[\\]_-]+)[ \\t]* # Name
+        ({[ \\t]*[a-zA-Z0-9\\(\\)#:./\\\\\\[\\]_-]+[ \\t]*  # 3
           # Optional size or allowed values
           (?:
-            (?:( # Invalid marker
-              (?:{|=)
-              [ \\t]*
-              (?:}|$|(?=}))
-            )[ \\t]*(?=}))
+            # Size
+            ({[ \\t]*[^\\}]+?[ \\t]*})  # 4
             |
-            (?: # Size
-              ({)[ \\t]*(.+?)[ \\t]*(})
-            )
-            |
-            (?: # Allowed values
-              (=)[ \\t]*(.+?)[ \\t]*
-            )
-          )?
-        (})[ \\t]*)
+            # Allowed values
+            (=[ \\t]*[^\\}]*?[ \\t]*)  # 5
+          )?})[ \\t]*
       )
-
+      |
+      (?:({[^\\}]*})[ \\t]*)  # 6
     )?
 
     # Name
     (?:
       (?:
         # Optional
-        (?:[ \\t]*((\\[)[ \\t]*([a-zA-Z0-9\\:\\.\\/\\\\_-]+)[ \\t]*
-          # Default
-          (?:
-            (=[ \\t]*) # Invalid marker
-            |
-            (?:(=)[ \\t]*)(.+?)
-          )
-        (\\]))(?=\\s|$))
+        ([ \\t]*\\[[ \\t]*[a-zA-Z0-9:./\\\\_-]+[ \\t]*
+          (=[ \\t]*[^\\]]*?)? # Default
+          \\](?=\\s|$)
+        )
         |
         # Required
-        (?:[ \\t]*([a-zA-Z0-9\\:\\.\\/\\\\_-]+)(?=\\s|$))
+        (?:[ \\t]*([a-zA-Z0-9:./\\\\_-]+)(?=\\s|$))
       )
       |
-      ([\\S]+)
-    )
+      ([\\S]+) # Invalid name
+    )?
 
     # No matching for description
     (?=.*?$)
     '''
     captures:
-      1:  # Invalid group parens
+      1: # Invalid group parens
         name: 'invalid.illegal.syntax.apidoc'
-      2:  # Group left paren
-        name: 'meta.brace.round.apidoc'
-      3:  # Group name
-        name: 'constant.language.symbol-type.apidoc'
-      4:  # Group right paren
-        name: 'meta.brace.round.apidoc'
-      5:  # Invalid type braces
-        name: 'invalid.illegal.syntax.apidoc'
-      6:  # Type left brace
-        name: 'meta.brace.curly.apidoc'
-      7:  # Type name
-        name: 'entity.name.type.instance.apidoc'
-      8:  # Invalid size/value
-        name: 'invalid.illegal.syntax.apidoc'
-      9:  # Size left brace
-        name: 'meta.brace.curly.apidoc'
-      10: # Size
+      2: # Group name
+        name: 'constant.other.apidoc'
+      3: # Type
+        name: 'entity.name.type.apidoc'
+      4: # Size
         name: 'constant.numeric.apidoc'
-      11: # Size right brace
-        name: 'meta.brace.curly.apidoc'
-      12: # Allowed value equal sign
-        name: 'keyword.operator.assignment.apidoc'
-      13: # Values
+      5: # Values
         name: 'constant.other.apidoc'
-      14: # Type right brace
-        name: 'meta.brace.curly.apidoc'
-      15: # Full optional name style
-        name: 'markup.underline'
-      16: # Optional left bracket
-        name: 'meta.brace.square.apidoc'
-      17: # Optional name
-        name: 'variable.other.apidoc'
-      18: # Invalid default equal sign
+      6: # Invalid type
         name: 'invalid.illegal.syntax.apidoc'
-      19: # Default equal sign
-        name: 'keyword.operator.assignment.apidoc'
-      20: # Default value
-        name: 'constant.other.apidoc'
-      21: # Optional right bracket
-        name: 'meta.brace.square.apidoc'
-      22: # Required name
+      7: # Optional name
         name: 'variable.other.apidoc'
-      23: # Invalid name
+      8: # Default value
+        name: 'string.quoted.apidoc'
+      9: # Required name
+        name: 'variable.other.apidoc'
+      10: # Invalid name
         name: 'invalid.illegal.syntax.apidoc'
   }

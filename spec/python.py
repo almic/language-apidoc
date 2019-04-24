@@ -1,8 +1,8 @@
 """
+I literally don't know how to fix this.
+Everything says that this should be highlighting but no matter what I do it won't actually work.
+
+Honestly wtf Max, I blame you  >:(
+
 @api {post} /path Some title
-@apiName This is a name
-@apiParam (group here) {String{type stuff}} [field="default"] Explanation goes here
-@apiVersion badVersion1
-@apiVersion 1.0.10-goodversion
-@apiSampleRequest https://www.example.com
 """

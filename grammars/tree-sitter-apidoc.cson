@@ -7,8 +7,6 @@ parser: 'tree-sitter-apidoc'
 injectionRegex: '^apidoc$'
 
 scopes:
-    # We rely on jsdoc to help highlight some of our stuff, and override the rest
-
     '''
     method,
     group
@@ -19,11 +17,37 @@ scopes:
     url
     ''': 'support.type.apidoc'
 
+    'name': 'variable.other.apidoc'
+    'title': 'entity.other.attribute-name.id.apidoc'
+
     '''
-    name,
+    off,
+    default,
+    semver
+    ''': 'string.quoted.apidoc'
+
+    'type': 'entity.name.type.apidoc'
+
+    '''
+    api,
+    ignore,
+    define,
+    deprecated,
+    description,
+    error,
+    errorexample,
+    example,
+    apigroup,
+    header,
+    headerexample,
+    apiname,
+    param,
+    paramexample,
+    permission,
+    private,
+    samplerequest,
+    success,
+    successexample,
+    use,
     version
-    ''': 'variable.other.apidoc'
-
-    'default': 'string.quoted.apidoc'
-
-    'type': 'entity.type.apidoc'
+    ''': 'keyword.control.apidoc'
