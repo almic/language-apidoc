@@ -1,7 +1,8 @@
 {
   "name": "language-apidoc",
-  "version": "0.1.0",
-  "description": "Add support for apiDoc syntax highlighting for any language",
+  "version": "0.2.0",
+  "description": "ApiDoc syntax highlighting support in Atom, for any language",
+  "main": "lib/main",
   "keywords": [
     "apidoc",
     "api",
@@ -10,9 +11,21 @@
     "language",
     "grammar"
   ],
-  "repository": "https://github.com/almic/language-apidoc",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almic/language-apidoc.git"
+  },
+  "author": "almic",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/almic/language-apidoc/issues"
+  },
+  "homepage": "https://github.com/almic/language-apidoc",
   "engines": {
-    "atom": ">=1.0.0 <2.0.0"
+    "atom": "*",
+    "node": "*"
+  },
+  "dependencies": {
+    "tree-sitter-apidoc": "^0.1.1"
   }
 }

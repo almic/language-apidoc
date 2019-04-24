@@ -1,0 +1,29 @@
+name: 'apiDoc'
+scopeName: 'text.apidoc'
+type: 'tree-sitter'
+parser: 'tree-sitter-apidoc'
+
+# Please atom fix atom/atom#18467 & atom/atom#18196
+injectionRegex: '^apidoc$'
+
+scopes:
+    # We rely on jsdoc to help highlight some of our stuff, and override the rest
+
+    '''
+    method,
+    group
+    ''': 'constant.other.apidoc'
+
+    '''
+    path,
+    url
+    ''': 'support.type.apidoc'
+
+    '''
+    name,
+    version
+    ''': 'variable.other.apidoc'
+
+    'default': 'string.quoted.apidoc'
+
+    'type': 'entity.type.apidoc'
